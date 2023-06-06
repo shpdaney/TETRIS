@@ -1,0 +1,40 @@
+.board {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  height: 70vh;
+  aspect-ratio: 1 / 2;
+  border: 1px solid var(--basic-green-0-5);
+}
+
+.cell {
+  outline: 1px dotted var(--basic-green-0-1);
+}
+.cell--move {
+  background: var(--basic-green-0-5);
+  outline: 1px double var(--basic-green-1);
+  outline-offset: -3px;
+
+}
+.cell--fixed {
+  background: var(--basic-red-0-5);
+  outline: 1px double var(--basic-red-1);
+  outline-offset: -3px;
+}
+
+.controll-box {
+  display: flex;
+  justify-content: space-between;
+  column-gap: 20px;
+}
+.button {
+  display: block;
+  width: 60px;
+  aspect-ratio: 2 / 1;
+
+  color: var(--basic-green-1);
+  background: var(--basic-black);
+  border: 1px solid var(--basic-green-1);
+  ;
+
+  text-transform: uppercase;
+}
