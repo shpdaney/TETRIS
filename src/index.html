@@ -1,19 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<head class="page">
-	<meta charset="UTF-8">
+  <head class="page">
+    <meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Tetris</title>
 	<link rel="stylesheet" href="css/index.css">
 </head>
 
 <body class="page__body">
-  <!-- 10x20 -->
-  <main class="board"></main>
-  <div class="controll-box">
-    <button class="button">Right</button>
-    <button class="button">Down</button>
-    <button class="button">Left</button>
+  <div class="game">
+    <header class="header">
+      <div class="preview"></div>
+      <div class="text-box">
+        <p class="text">Lavel: <span class="index lavel">1</span></p>
+        <p class="text">Score: <span class="index score">0</span></p>
+      </div>
+    </header>
+    <!-- 10x20 -->
+    <main class="board"></main>
+    <div class="controll-box">
+      <button class="button button-left" id="button-left">Left</button>
+      <button class="button button-rotate" id="button-rotate">Rotate</button>
+      <button class="button button-down" id="button-down">Down</button>
+      <button class="button button-right" id="button-right">Right</button>
+    </div>
   </div>
 </body>
 
