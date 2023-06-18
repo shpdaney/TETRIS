@@ -1,4 +1,5 @@
 .game {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -13,6 +14,7 @@
   width: 100%;
   // border: 1px solid red;
 }
+
 .preview {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -20,6 +22,7 @@
   aspect-ratio: 1 / 1;
 
 }
+
 .text-box {
   text-align: right;
   word-spacing: 1rem;
@@ -37,9 +40,8 @@
   height: 75vh;
   aspect-ratio: 1 / 2;
   border: 1px solid var(--basic-green-0-5);
-  border-image: linear-gradient(
-    var(--basic-green-0-1),
-    var(--basic-green-1)) 30;
+  border-image: linear-gradient(var(--basic-green-0-1),
+      var(--basic-green-1)) 30;
   background: #000;
 
 }
@@ -48,12 +50,14 @@
   outline: 1px solid var(--basic-green-0-05);
   outline-offset: -2px;
 }
+
 .cell--move {
   background: var(--basic-green-0-5);
   outline: 1px double var(--basic-green-1);
   outline-offset: -3px;
 
 }
+
 .cell--fixed {
   background: var(--basic-red-0-5);
   outline: 1px double var(--basic-red-1);
@@ -67,6 +71,7 @@
   justify-content: space-between;
   column-gap: 30px;
 }
+
 .button {
   display: block;
   width: 60px;
@@ -78,34 +83,74 @@
 
   text-transform: uppercase;
 }
+
+.button:hover {
+  color: var(--basic-yellow-1);
+  border-color: var(--basic-yellow-1);
+}
 .button:active {
   color: var(--basic-red-1);
   border-color: var(--basic-red-1);
 }
 
+
 .button-left {
   grid-row: 3 / span 4;
 }
+
 .button-rotate {
   grid-column: 2 / 3;
   grid-row: 1 / span 3;
 }
+
 .button-down {
   grid-column: 2 / 3;
   grid-row: 6 / span 3;
 }
+
 .button-right {
   grid-column: 3;
   grid-row: 3 / span 4;
 }
 
+.menu {
+  position: absolute;
+  top: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 50px;
+  background: var(--basic-black-0-8);
+  border: 1px solid var(--basic-green-0-5);
+  transform: translateY(-100vh);
+  transition: all 500ms ease-in-out;
 
-@media (width >= 1024px) {
+  &__title {
+    font-size: 32px;
+    color: var(--basic-yellow-1);
+  }
+
+  &__button {
+    margin-top: 20px;
+    font-size: 24px;
+    width: 70%;
+    aspect-ratio: 5 / 2;
+    background: transparent;
+    user-select: none;
+  }
+}
+
+.menu--active {
+  transform: translateY(0);
+}
+
+
+@media (width >=1024px) {
   .game {
     justify-content: center;
   }
+
   .controll-box {
     display: none;
   }
 }
-

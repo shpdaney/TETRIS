@@ -1,77 +1,52 @@
+import { genPlayField, playField, getNewTetro, } from "./utils";
+
+
 const board = document.querySelector('.board');
 const preview = document.querySelector('.preview');
 const lavel = document.querySelector('.lavel');
 const score = document.querySelector('.score');
+const menu = document.querySelector('.menu');
 
 
+// Game settings
 let curentLavel = 1;
 let curentScore = 0;
-// Game speed
 let gameSpeed = 1000;
 
-const TETROS_NAME = 'OTSZLJI';
-const TETROS = {
-  O: [
-    [1, 1, 0],
-    [1, 1, 0],
-    [0, 0, 0],
-  ],
-  T: [
-    [1, 1, 1],
-    [0, 1, 0],
-    [0, 0, 0],
-  ],
-  S: [
-    [0, 1, 1],
-    [1, 1, 0],
-    [0, 0, 0],
-  ],
-  Z: [
-    [1, 1, 0],
-    [0, 1, 1],
-    [0, 0, 0],
-  ],
-  L: [
-    [0, 1, 0],
-    [0, 1, 0],
-    [0, 1, 1],
-  ],
-  J: [
-    [0, 1, 0],
-    [0, 1, 0],
-    [1, 1, 0],
-  ],
-  I: [
-    [0, 1, 0, 0],
-    [0, 1, 0, 0],
-    [0, 1, 0, 0],
-    [0, 1, 0, 0],
-  ],
+// Уровни
+function leveling() {
+  if (curentScore >= Infinity) {
+    curentLavel = 10
+    gameSpeed = 100
+  } else if (curentScore >= 2000) {
+    curentLavel = 9
+    gameSpeed = 200
+  } else if (curentScore >= 1500) {
+    curentLavel = 8
+    gameSpeed = 300
+  } else if (curentScore >= 900) {
+    curentLavel = 7
+    gameSpeed = 400
+  } else if (curentScore >= 600) {
+    curentLavel = 6
+    gameSpeed = 500
+  } else if (curentScore >= 400) {
+    curentLavel = 5
+    gameSpeed = 600
+  } else if (curentScore >= 250) {
+    curentLavel = 4
+    gameSpeed = 700
+  } else if (curentScore >= 150) {
+    curentLavel = 3
+    gameSpeed = 800
+  } else if (curentScore >= 50) {
+    curentLavel = 2
+    gameSpeed = 900
+  }
+  lavel.innerText = curentLavel
+  score.innerText = curentScore
 }
-let playFieldt = Array(20).fill(Array(10).fill(0))
 
-let playField = [
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-];
 
 let previewField = [
   [0, 0, 0, 0],
@@ -81,11 +56,8 @@ let previewField = [
 ]
 
 
-
-
 // Tetro
-let nextTetro = [getNewTetro()]
-
+let newTetro = []
 let activeTetro = {
   x: 5,
   y: 0,
@@ -127,16 +99,10 @@ function previewDraw() {
 }
 
 
-// Tetro
-function getNewTetro() {
-  const random = Math.floor(Math.random() * 7)
-  return TETROS[TETROS_NAME[random]]
-}
-
 // Tetro Preview
 function previewTetro() {
   removeTetro(previewField)
-  let newTetro = getNewTetro()
+  newTetro = getNewTetro()
   for (let y = 0; y < newTetro.length; y++) {
     for (let x = 0; x < newTetro[y].length; x++) {
       if (newTetro[y][x] === 1) {
@@ -148,7 +114,7 @@ function previewTetro() {
 
 
 // Tetro Render
-function rendTetro(src = previewField) {
+function rendTetro(src = newTetro) {
   activeTetro.shape = [...src]
   activeTetro.y = 0
   activeTetro.x = Math.floor((playField[0].length - activeTetro.shape[0].length) / 2)
@@ -231,6 +197,17 @@ function dropTetro() {
   }
 }
 
+// Fixed
+function fixedTetro() {
+  for (let y = 0; y < playField.length; y++) {
+    for (let x = 0; x < playField[y].length; x++) {
+      if (playField[y][x] === 1) {
+        playField[y][x] = 2;
+      }
+    }
+  }
+}
+
 // Full Line
 function removeFullLines() {
   let canRemoveLine = true
@@ -269,71 +246,35 @@ function removeFullLines() {
     default:
       curentScore += 0
   }
-  score.innerText = curentScore
-  leles()
-}
-
-// Fixed
-function fixedTetro() {
-  for (let y = 0; y < playField.length; y++) {
-    for (let x = 0; x < playField[y].length; x++) {
-      if (playField[y][x] === 1) {
-        playField[y][x] = 2;
-      }
-    }
-  }
-}
-
-// Уровни
-function leles() {
-  if (curentScore >= Infinity) {
-    curentLavel = 10
-    gameSpeed = 100
-  } else if (curentScore >= 2000) {
-    curentLavel = 9
-    gameSpeed = 200
-  } else if (curentScore >= 1500) {
-    curentLavel = 8
-    gameSpeed = 300
-  } else if (curentScore >= 900) {
-    curentLavel = 7
-    gameSpeed = 400
-  } else if (curentScore >= 600) {
-    curentLavel = 6
-    gameSpeed = 500
-  } else if (curentScore >= 400) {
-    curentLavel = 5
-    gameSpeed = 600
-  } else if (curentScore >= 250) {
-    curentLavel = 4
-    gameSpeed = 700
-  } else if (curentScore >= 150) {
-    curentLavel = 3
-    gameSpeed = 800
-  } else if (curentScore >= 50) {
-    curentLavel = 2
-    gameSpeed = 900
-  }
-  lavel.innerText = curentLavel
+  leveling()
 }
 
 // Проигрышь
-function gemaOver() {
+function gameOver() {
   for (let i = 0; i < playField[0].length; i++) {
     if (playField[0][i] === 2) {
-      console.log('gameOver');
-      activeTetro.shape[0][i] = 0
-      return gameSpeed = 100000
+      console.log('End');
+      menu.classList.add('menu--active')
+      gameSpeed = 100000
     }
   }
 }
 
+// ------------------------------------------------------------------
 
 // Button
 document.addEventListener('click', function (event) {
   const isButton = event.target.nodeName === 'BUTTON';
   if (!isButton) {
     return;
+  } else if (event.target.id == "button-reset") {
+    curentLavel = 1;
+    curentScore = 0;
+    gameSpeed = 1000;
+    startGame()
+    menu.classList.remove('menu--active')
+
+
   } else if (event.target.id == "button-left") {
     activeTetro.x -= 1;
     if (checkCollisions()) {
@@ -352,8 +293,6 @@ document.addEventListener('click', function (event) {
   addActiveTetro()
   draw()
 })
-
-
 
 // KeyDown
 document.addEventListener('keydown', function (event) {
@@ -378,10 +317,15 @@ document.addEventListener('keydown', function (event) {
   draw()
 });
 
+
+// ------------------------------------------------------------------
+
+
 // Start
 function startGame() {
-  draw()
+  genPlayField()
   rendTetro(getNewTetro())
+  draw()
   previewDraw()
   processGame()
 }
@@ -389,7 +333,7 @@ function processGame() {
   moveTetroDown()
   addActiveTetro()
   draw()
-  gemaOver()
+  gameOver()
   setTimeout(processGame, gameSpeed)
 }
 
