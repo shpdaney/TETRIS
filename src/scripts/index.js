@@ -5,8 +5,9 @@ const board = document.querySelector('.board');
 const preview = document.querySelector('.preview');
 const lavel = document.querySelector('.lavel');
 const score = document.querySelector('.score');
+const lavels = document.querySelectorAll('.lavel');
+const scores = document.querySelectorAll('.score');
 const menu = document.querySelector('.menu');
-
 
 // Game settings
 let curentLavel = 1;
@@ -43,8 +44,8 @@ function leveling() {
     curentLavel = 2
     gameSpeed = 900
   }
-  lavel.innerText = curentLavel
-  score.innerText = curentScore
+  lavels.forEach(v => v.innerText = curentLavel)
+  scores.forEach(v => v.innerText = curentScore)
 }
 
 
@@ -253,9 +254,8 @@ function removeFullLines() {
 function gameOver() {
   for (let i = 0; i < playField[0].length; i++) {
     if (playField[0][i] === 2) {
-      console.log('End');
       menu.classList.add('menu--active')
-      gameSpeed = 100000
+      clearInterval(timerId)
     }
   }
 }
@@ -271,6 +271,7 @@ document.addEventListener('click', function (event) {
     curentLavel = 1;
     curentScore = 0;
     gameSpeed = 1000;
+    leveling()
     startGame()
     menu.classList.remove('menu--active')
 
@@ -322,19 +323,20 @@ document.addEventListener('keydown', function (event) {
 
 
 // Start
+let timerId
 function startGame() {
   genPlayField()
   rendTetro(getNewTetro())
   draw()
   previewDraw()
-  processGame()
+  timerId = setInterval(processGame, gameSpeed)
 }
+
 function processGame() {
   moveTetroDown()
   addActiveTetro()
   draw()
   gameOver()
-  setTimeout(processGame, gameSpeed)
 }
 
 startGame()
